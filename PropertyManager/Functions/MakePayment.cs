@@ -4,12 +4,10 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using PropertyManager.Domain.Models;
 
 namespace PropertyManager.Functions
 {
-    public static class Payments
+    public static class MakePayment
     {
         [FunctionName("MakePayment")]
         public static async Task<IActionResult> Run(

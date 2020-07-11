@@ -24,18 +24,7 @@ namespace PropertyManager.Functions
         {
             var statuses = new List<ClientStatus>();
 
-            var paidArrangements = _dataBase.Arrangements.Where(a =>
-                a.ManagerId == managerId
-                && _dataBase.Payments.Any(p => p.ArrangementId == a.Id)
-                && _dataBase.Payments.Sum(p => p.Ammount) >= a.RentPerWeek);
-
-            foreach (var paidArrangement in paidArrangements)
-            {
-                statuses.Add(new ClientStatus { Status = "PAID", 
-                    Client = _dataBase.Clients.Where(c => c.Id == paidArrangement.ClientId).FirstOrDefault(),
-                    Property = _dataBase.Properties.Where(p => p.Id == paidArrangement.PropertyId).FirstOrDefault()
-                });
-            }
+            statuses.AddRange(GetPaidClientStatuses(managerId));
 
             statuses.AddRange(GetArrearsClientStatuses(managerId));
 
@@ -44,7 +33,7 @@ namespace PropertyManager.Functions
 
         public static bool IsValidArrangementId(int arrangementId)
         {
-            return _dataBase.Arrangements.Select(a => a.Id == arrangementId).FirstOrDefault();
+            return _dataBase.Arrangements.Where(a => a.Id == arrangementId).Any();
         }
 
         public static void MakePayment(int arrangementId, double ammount)
@@ -53,27 +42,58 @@ namespace PropertyManager.Functions
 
             _dataBase.Payments.Add(new Payment { Id = id, ArrangementId = arrangementId, Ammount = ammount, DateTime = DateTime.Now });
         }
+        
+        public static DataBase PeekDataBase()
+        {
+            return _dataBase;
+        }
 
         private static List<ClientStatus> GetArrearsClientStatuses(int managerId)
         {
             var statuses = new List<ClientStatus>();
 
-            var unpaidArrangements = _dataBase.Arrangements.Where(a =>
-                a.ManagerId == managerId
-                && !_dataBase.Payments.Any(p => p.ArrangementId == a.Id)
-                && _dataBase.Payments.Sum(p => p.Ammount) < a.RentPerWeek);
+            var arrangements = _dataBase.Arrangements.Where(a => a.ManagerId == managerId);
 
-            foreach (var unpaidArrangement in unpaidArrangements)
+            foreach (var arrangement in arrangements)
             {
-                statuses.Add(new ClientStatus
+                double payments = _dataBase.Payments.Where(p => p.ArrangementId == arrangement.Id).Sum(p => p.Ammount);
+                
+                if(payments < arrangement.RentPerWeek)
                 {
-                    Status = "ARREARS",
-                    Client = _dataBase.Clients.Where(c => c.Id == unpaidArrangement.ClientId).FirstOrDefault(),
-                    Property = _dataBase.Properties.Where(p => p.Id == unpaidArrangement.PropertyId).FirstOrDefault()
-                });
+                    statuses.Add(new ClientStatus
+                    {
+                        Status = "ARREARS",
+                        Client = _dataBase.Clients.Where(c => c.Id == arrangement.ClientId).FirstOrDefault(),
+                        Property = _dataBase.Properties.Where(p => p.Id == arrangement.PropertyId).FirstOrDefault()
+                    });
+                }
             }
 
             return statuses;
-        }        
+        }
+
+        private static List<ClientStatus> GetPaidClientStatuses(int managerId)
+        {
+            var statuses = new List<ClientStatus>();
+
+            var arrangements = _dataBase.Arrangements.Where(a => a.ManagerId == managerId);
+
+            foreach (var arrangement in arrangements)
+            {
+                double payments = _dataBase.Payments.Where(p => p.ArrangementId == arrangement.Id).Sum(p => p.Ammount);
+
+                if (payments >= arrangement.RentPerWeek)
+                {
+                    statuses.Add(new ClientStatus
+                    {
+                        Status = "PAID",
+                        Client = _dataBase.Clients.Where(c => c.Id == arrangement.ClientId).FirstOrDefault(),
+                        Property = _dataBase.Properties.Where(p => p.Id == arrangement.PropertyId).FirstOrDefault()
+                    });
+                }
+            }
+
+            return statuses;
+        }
     }
 }
