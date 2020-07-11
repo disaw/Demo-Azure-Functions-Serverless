@@ -38,13 +38,45 @@ namespace PropertyManager.Functions
 
         public static void MakePayment(int arrangementId, double ammount)
         {
-            var id = _dataBase.Payments.Select(p => p.Id).FirstOrDefault() + 1;
+            int paymentId = _dataBase.Payments.Any() ? _dataBase.Payments.Max(p => p.Id) + 1 : 1;
+            var arrangement = _dataBase.Arrangements.Where(a => a.Id == arrangementId).FirstOrDefault();
 
-            _dataBase.Payments.Add(new Payment { Id = id, ArrangementId = arrangementId, Ammount = ammount, DateTime = DateTime.Now });
+            _dataBase.Payments.Add(new Payment { Id = paymentId, ArrangementId = arrangementId, Ammount = ammount, DateTime = DateTime.Now });
+
+            var paySchedule = _dataBase.PaySchedules.Where(s => s.ArrangementId == arrangementId).LastOrDefault();
+            double balance = paySchedule.Balance = paySchedule.Balance - ammount;            
+
+            while (balance < 1) //Setting future pay schedules
+            {                
+                int payScheduleId = _dataBase.PaySchedules.Any() ? _dataBase.PaySchedules.Max(p => p.Id) + 1 : 1;
+                var lastPaySchedule = _dataBase.PaySchedules.Where(s => s.ArrangementId == arrangementId).LastOrDefault();
+
+                if (arrangement.End > lastPaySchedule.DueDate)
+                {
+                    _dataBase.PaySchedules.Add(new PaySchedule
+                    {
+                        Id = payScheduleId,
+                        ArrangementId = arrangementId,
+                        DueDate = lastPaySchedule.DueDate.AddDays(7),
+                        Balance = arrangement.RentPerWeek + lastPaySchedule.Balance
+                    });
+
+                    balance = arrangement.RentPerWeek + lastPaySchedule.Balance;
+                }
+                else
+                {
+                    break;
+                }                
+            }
         }
         
-        public static DataBase PeekDataBase()
+        public static DataBase PeekDataBase(bool reset = false)
         {
+            if(reset)
+            {
+                _dataBase = new DataBase();
+            }
+
             return _dataBase;
         }
 
@@ -56,9 +88,9 @@ namespace PropertyManager.Functions
 
             foreach (var arrangement in arrangements)
             {
-                double payments = _dataBase.Payments.Where(p => p.ArrangementId == arrangement.Id).Sum(p => p.Ammount);
-                
-                if(payments < arrangement.RentPerWeek)
+                var paySchedule = _dataBase.PaySchedules.Where(s => s.ArrangementId == arrangement.Id).LastOrDefault();
+
+                if (paySchedule.DueDate < DateTime.Now)
                 {
                     statuses.Add(new ClientStatus
                     {
@@ -80,9 +112,9 @@ namespace PropertyManager.Functions
 
             foreach (var arrangement in arrangements)
             {
-                double payments = _dataBase.Payments.Where(p => p.ArrangementId == arrangement.Id).Sum(p => p.Ammount);
+                var paySchedule = _dataBase.PaySchedules.Where(s => s.ArrangementId == arrangement.Id).LastOrDefault();
 
-                if (payments >= arrangement.RentPerWeek)
+                if (paySchedule.DueDate > DateTime.Now)
                 {
                     statuses.Add(new ClientStatus
                     {

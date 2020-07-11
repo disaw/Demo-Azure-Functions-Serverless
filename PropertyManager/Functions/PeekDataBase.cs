@@ -12,12 +12,12 @@ namespace PropertyManager.Functions
         [FunctionName("PeekDataBase")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", 
-            Route = "propertyManager/peekDataBase")] 
-            HttpRequest req, ILogger log)
+            Route = "propertyManager/peekDataBase/{reset}")] 
+            HttpRequest req, bool reset, ILogger log)
         {
             log.LogInformation($"propertyManager/peekDataBase triggered.");
 
-            return new OkObjectResult(ArrangementService.PeekDataBase());
+            return new OkObjectResult(ArrangementService.PeekDataBase(reset));
         }
     }
 }

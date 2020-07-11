@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters.Internal;
 using PropertyManager.Domain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace PropertyManager.Infrastructure
@@ -10,8 +11,8 @@ namespace PropertyManager.Infrastructure
         public List<Manager> Managers { get; set; }
         public List<Client> Clients { get; set; }
         public List<Arrangement> Arrangements { get; set; }
-        public List<Payment> Payments { get; set; }
-
+        public List<PaySchedule> PaySchedules { get; set; }
+        public List<Payment> Payments { get; set; }        
 
         public DataBase()
         {
@@ -34,9 +35,17 @@ namespace PropertyManager.Infrastructure
             Clients.Add(new Client { Id = 3, Name = "Steve Client" });
 
             Arrangements = new List<Arrangement>();
-            Arrangements.Add(new Arrangement { Id = 1, PropertyId = 1, ManagerId = 1, ClientId = 1, RentPerWeek = 400 });
-            Arrangements.Add(new Arrangement { Id = 2, PropertyId = 2, ManagerId = 1, ClientId = 2, RentPerWeek = 450 });
-            Arrangements.Add(new Arrangement { Id = 3, PropertyId = 3, ManagerId = 1, ClientId = 3, RentPerWeek = 500 });
+            Arrangements.Add(new Arrangement { Id = 1, PropertyId = 1, ManagerId = 1, ClientId = 1, RentPerWeek = 400, 
+                Start = DateTime.Parse("2020-07-03"), End = DateTime.Parse("2020-12-31") });
+            Arrangements.Add(new Arrangement { Id = 2, PropertyId = 2, ManagerId = 1, ClientId = 2, RentPerWeek = 450,
+                Start = DateTime.Parse("2020-07-02"), End = DateTime.Parse("2021-04-30") });
+            Arrangements.Add(new Arrangement { Id = 3, PropertyId = 3, ManagerId = 1, ClientId = 3, RentPerWeek = 500,
+                Start = DateTime.Parse("2020-07-10"), End = DateTime.Parse("2021-06-30") });
+
+            PaySchedules = new List<PaySchedule>();
+            PaySchedules.Add(new PaySchedule { Id = 1, ArrangementId = 1, DueDate = DateTime.Parse("2020-07-10"), Balance = 400 });
+            PaySchedules.Add(new PaySchedule { Id = 2, ArrangementId = 2, DueDate = DateTime.Parse("2020-07-09"), Balance = 450 });
+            PaySchedules.Add(new PaySchedule { Id = 3, ArrangementId = 3, DueDate = DateTime.Parse("2020-07-17"), Balance = 500 });
 
             Payments = new List<Payment>();
         }

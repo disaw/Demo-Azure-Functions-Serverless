@@ -6,50 +6,198 @@
 	},
 	"item": [
 		{
-			"name": "getArrearsClients",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/1/getArrearsClients",
-					"protocol": "https",
-					"host": [
-						"propertymanagementfunctions-disaw",
-						"azurewebsites",
-						"net"
-					],
-					"path": [
-						"api",
-						"propertyManager",
-						"1",
-						"getArrearsClients"
-					]
+			"name": "Local",
+			"item": [
+				{
+					"name": "/peekDataBase/{reset}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7071/api/propertyManager/peekDataBase/false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"propertyManager",
+								"peekDataBase",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/{managerId}/getArrearsClients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7071/api/propertyManager/1/getArrearsClients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"propertyManager",
+								"1",
+								"getArrearsClients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/makePayment/{arrangementId}/{ammount}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7071/api/propertyManager/makePayment/1/400",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"propertyManager",
+								"makePayment",
+								"1",
+								"400"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/{managerId}/getMyClientsStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7071/api/propertyManager/1/getMyClientsStatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"propertyManager",
+								"1",
+								"getMyClientsStatus"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "getMyClientsStatus",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/1/getMyClientsStatus",
-					"protocol": "https",
-					"host": [
-						"propertymanagementfunctions-disaw",
-						"azurewebsites",
-						"net"
-					],
-					"path": [
-						"api",
-						"propertyManager",
-						"1",
-						"getMyClientsStatus"
-					]
+			"name": "Azure",
+			"item": [
+				{
+					"name": "/peekDataBase/{reset}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/peekDataBase/false",
+							"protocol": "https",
+							"host": [
+								"propertymanagementfunctions-disaw",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"propertyManager",
+								"peekDataBase",
+								"false"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/{managerId}/getArrearsClients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/1/getArrearsClients",
+							"protocol": "https",
+							"host": [
+								"propertymanagementfunctions-disaw",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"propertyManager",
+								"1",
+								"getArrearsClients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/makePayment/{arrangementId}/{ammount}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/makePayment/2/50",
+							"protocol": "https",
+							"host": [
+								"propertymanagementfunctions-disaw",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"propertyManager",
+								"makePayment",
+								"2",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/{managerId}/getMyClientsStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/1/getMyClientsStatus",
+							"protocol": "https",
+							"host": [
+								"propertymanagementfunctions-disaw",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"propertyManager",
+								"1",
+								"getMyClientsStatus"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

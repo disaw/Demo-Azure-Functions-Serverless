@@ -13,7 +13,7 @@ namespace PropertyManager.Domain.Models
         public int ClientId { get; set; }
 
         public double RentPerWeek { get; set; }
-
+         
         public DateTime Start { get; set; }
 
         public DateTime End { get; set; }
