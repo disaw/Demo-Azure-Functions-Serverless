@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "5a03bc21-c5c3-4f75-99ba-fffb2f2a78e1",
+		"name": "PropertyManager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getArrearsClients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/1/getArrearsClients",
+					"protocol": "https",
+					"host": [
+						"propertymanagementfunctions-disaw",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"propertyManager",
+						"1",
+						"getArrearsClients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMyClientsStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://propertymanagementfunctions-disaw.azurewebsites.net/api/propertyManager/1/getMyClientsStatus",
+					"protocol": "https",
+					"host": [
+						"propertymanagementfunctions-disaw",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"propertyManager",
+						"1",
+						"getMyClientsStatus"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
